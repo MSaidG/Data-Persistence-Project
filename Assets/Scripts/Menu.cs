@@ -13,14 +13,23 @@ public class Menu : MonoBehaviour {
 
     public static string playerName;
     public GameObject userName;
-    
+    public GameObject infoText;
+    private int score;
+    private string bestName;
 
-    public void StartGame()
+    private void Start()
+    {
+        LoadPlayer();
+        PrintInfo();
+    }
+
+
+    private void StartGame()
     {
         SceneManager.LoadScene(1);
     }
 
-    public void ExitGame()
+    private void ExitGame()
     {
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
@@ -29,8 +38,21 @@ public class Menu : MonoBehaviour {
 #endif
     }
 
-    public void SaveName()
+    private void SaveName()
     {
         playerName = userName.GetComponent<TextMeshProUGUI>().text;
+    }
+
+    private void PrintInfo()
+    {
+        infoText.GetComponent<TextMeshProUGUI>().text = "Best Score: " + bestName + ": " + score;
+    }
+
+    private void LoadPlayer()
+    {
+        PlayerData data = SaveSystem.LoadPlayerAndScore();
+
+        score = data.score;
+        bestName = data.name;
     }
 }

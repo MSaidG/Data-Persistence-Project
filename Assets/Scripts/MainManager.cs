@@ -20,12 +20,13 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
 
     public static int bestScore;
+    public string playerName;
 
     
     // Start is called before the first frame update
     void Start()
     {
-        SaveSystem.LoadPlayerAndScore();
+        LoadPlayer();
         ScoreInfo();
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
@@ -79,7 +80,7 @@ public class MainManager : MonoBehaviour
         if(m_Points > bestScore)
         {
             bestScore = m_Points;
-            SaveSystem.SavePlayerAndScore(bestScore, Menu.playerName);
+            SavePlayer();
         }
         m_GameOver = true;
         GameOverText.SetActive(true);
@@ -87,6 +88,19 @@ public class MainManager : MonoBehaviour
 
     public void ScoreInfo()
     {
-        ScoreAndNameText.text = $"Best Score : {bestScore}  Name: {Menu.playerName}";
+        ScoreAndNameText.text = $"Best Score : {bestScore}  Name: {playerName}";
+    }
+
+    public void LoadPlayer()
+    {
+        PlayerData data = SaveSystem.LoadPlayerAndScore();
+
+        bestScore = data.score;
+        playerName = data.name;
+    }
+
+    public void SavePlayer()
+    {
+        SaveSystem.SavePlayerAndScore(bestScore, Menu.playerName);
     }
 }

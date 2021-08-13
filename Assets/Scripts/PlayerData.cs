@@ -9,10 +9,10 @@ public class PlayerData
     public string name;
 
     //constructor
-    public PlayerData(int bestScore, string userName )
+    public PlayerData(int _bestScore, string userName )
     {
-        score = MainManager.bestScore;
-        name = Menu.playerName;
+        score = _bestScore;
+        name = userName;
     }
 }
 
